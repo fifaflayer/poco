@@ -60,13 +60,9 @@ public:
 	using RawIP = std::vector<unsigned char>;
 
 	static const unsigned IPv4Size = sizeof(in_addr);
-#if defined(POCO_HAVE_IPv6)
 	static const unsigned IPv6Size = sizeof(in6_addr);
-#endif
 	using RawIPv4 = std::array<unsigned char, IPv4Size>;
-#if defined(POCO_HAVE_IPv6)
 	using RawIPv6 = std::array<unsigned char, IPv6Size>;
-#endif // POCO_HAVE_IPv6
 
 	// The following declarations keep the Family type
 	// backwards compatible with the previously used
@@ -75,7 +71,7 @@ public:
 	static const Family IPv4 = AddressFamily::IPv4;
 #if defined(POCO_HAVE_IPv6)
 	static const Family IPv6 = AddressFamily::IPv6;
-#endif // POCO_HAVE_IPv6
+#endif
 
 	IPAddress();
 		/// Creates a wildcard (zero) IPv4 IPAddress.
@@ -141,13 +137,9 @@ public:
 		/// Move-assigns an IPAddress.
 
 	bool isV4() const;
-#if defined(POCO_HAVE_IPv6)
 	bool isV6() const;
-#endif // POCO_HAVE_IPv6
 	RawIPv4 toV4Bytes() const;
-#if defined(POCO_HAVE_IPv6)
 	RawIPv6 toV6Bytes() const;
-#endif // POCO_HAVE_IPv6
 	RawIP toBytes() const;
 
 	Family family() const;
@@ -405,8 +397,8 @@ private:
 	void newIPv6(const void* hostAddr, Poco::UInt32 scope);
 	void newIPv6(unsigned prefix);
 	static std::string& compressV6(std::string& v6addr);
-	static std::string trimIPv6(const std::string v6Addr);
-#endif // POCO_HAVE_IPv6
+	static std::string trimIPv6(const std::string& v6Addr);
+#endif
 	Ptr _pImpl;
 };
 
@@ -420,12 +412,12 @@ inline bool IPAddress::isV4() const
 	return family() == IPv4;
 }
 
-#if defined(POCO_HAVE_IPv6)
+
 inline bool IPAddress::isV6() const
 {
 	return family() == IPv6;
 }
-#endif // POCO_HAVE_IPv6
+
 
 inline IPAddress::Ptr IPAddress::pImpl() const
 {
